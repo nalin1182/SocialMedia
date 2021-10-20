@@ -1,0 +1,28 @@
+/* Hide scrollbar for Chrome, Safari and Opera */
+.userCard::-webkit-scrollbar,.chatboxInner::-webkit-scrollbar,.postContainer::-webkit-scrollbar,body::-webkit-scrollbar {
+    display: none;
+  }
+  
+  /* Hide scrollbar for IE, Edge and Firefox */
+  .userCard,.chatboxInner,.postContainer,body{
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+
+.userCard{
+    height:90vh;
+    overflow-y:scroll; 
+}  
+
+.chatbox{
+  height: 400px;
+}
+
+.chatboxInner{
+  overflow-y: scroll;
+}
+
+.postContainer{
+  height: 1150px;
+  overflow-y: scroll;
+}
