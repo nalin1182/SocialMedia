@@ -22,6 +22,7 @@ export const getAllPosts = ()=>API.get('/posts/allPosts');
 export const createPost = (data)=>API.post('/posts/createPosts',data);
 export const deletePost = (id)=>API.delete(`/posts/deletePosts/${id}`);
 export const updatePost = (id,data)=>API.put(`/posts/updatePosts/${id}`,data);
+export const reactPost =  (id)=>API.put(`/posts/likePosts/${id}`);
 
 export const getAllUsers = ()=>API.get('/friends/allUsers'); 
 export const getAllFriends = ()=>API.get('/friends/allFriends'); 

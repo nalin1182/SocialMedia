@@ -61,3 +61,24 @@ export const updatePost = (id,formData)=> async(dispatch)=>{
   dispatch(currentPost(null));
 
 }
+
+export const reactPost = (id)=>async(dispatch)=>{
+
+  try{
+
+    const {data} = await api.reactPost(id);
+    dispatch({type:'UPDATE_POST',payload:data.updatedPost});
+
+  }catch(error){
+    console.log(error);
+  }
+
+}
+
+export const userProfile = (id)=>async (dispatch)=>{
+   try{
+    dispatch({type:'USER_PROFILE',payload:id});
+   }catch(error){
+      console.log(error);
+   }
+}

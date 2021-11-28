@@ -1,6 +1,7 @@
 const initialState = {
     posts: [],
-    currentPost: null
+    currentPost: null,
+    useProfile:false
 }
 
 const postReducer = (state = initialState, actions) => {
@@ -9,28 +10,35 @@ const postReducer = (state = initialState, actions) => {
         case 'FETCH_ALL':
             return {
                 ...state,
-                posts: actions.payload
+                posts: actions.payload,
+                useProfile:false
             }
         case 'CREATE_POST':
             return {
                 ...state,
-                posts: [actions.payload,...state.posts]
+                posts: [actions.payload,...state.posts],
             }
         case 'DELETE_POST':
             return {
                 ...state,
-                posts: state.posts.filter((post) => post._id !== actions.payload)
+                posts: state.posts.filter((post) => post._id !== actions.payload),
             }
         case 'CURRENT_POST':
             return {
                 ...state,
-                currentPost: actions.payload
+                currentPost: actions.payload,
             }
         case 'UPDATE_POST':
             return {
                 ...state,
                 posts: state.posts.map((post) => post._id === actions.payload._id?actions.payload:post)
             }
+        case 'USER_PROFILE':
+            return {
+                ...state,
+                posts: state.posts.filter((post) => actions.payload === post.creator_id),
+                useProfile:true                
+            }    
         default:
             return state;
     }

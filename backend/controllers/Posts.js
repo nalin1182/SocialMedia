@@ -82,3 +82,41 @@ exports.editPosts = async (req,res)=>{
     }
 
 }
+
+exports.likePost = async (req,res)=>{
+
+    try{
+
+        const {id} = req.params;
+        const user_id = req.user_id;
+        
+        if(!user_id){
+            return res.status(404).json({message:'Unauthenticated'});
+        }
+
+        const post = await Posts.findById(id);
+        if(!post){
+            return res.status(404).json({ errors: 'No Post found' });
+        }
+
+        const index = post.likes.findIndex((id)=>String(id)===String(user_id));
+        console.log(index) ;   
+ 
+        if(index===-1){
+            //like the post
+            post.likes.push(user_id);
+        }else{
+            //dislike the post
+            post.likes = post.likes.filter((id)=>String(id)!==String(user_id));
+           
+        }
+
+        const updatedPost =  await Posts.findByIdAndUpdate(id,post,{new:true});
+        return res.status(200).json({message:"Post updated Successfully",updatedPost});
+
+
+    }catch(error){
+       return res.status(500).json({message:error.message});
+    }
+
+}
