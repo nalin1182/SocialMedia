@@ -25,6 +25,7 @@ chatServer.listen(8000, () => {
 //chat server
 
 app.use('/api', require('./router'));
+app.use('/uploads',express.static('uploads'));
 
 app.listen(PORT, () => {
   console.log('success');
