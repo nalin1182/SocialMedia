@@ -10,7 +10,6 @@ const Posts = () => {
 
     const dispatch = useDispatch();
     const { useProfile } = useSelector((state) => state.posts);
-    console.log(useProfile);
 
     useEffect(() => {
         dispatch(getAllPosts());
@@ -23,7 +22,7 @@ const Posts = () => {
     return (
         <>
 
-         {useProfile&&<UserProfile/>}
+         {useProfile&&<UserProfile/>} 
          <CreatePost/>
          <Postlists/>
         </>

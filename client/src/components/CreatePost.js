@@ -1,16 +1,18 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect,useRef} from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 
 import { createPost, updatePost } from '../actions/posts';
 
 const CreatePost = () => {
-
+    
+    const ref = useRef();
     const dispatch = useDispatch();
-    const [postDetails, setPostDetails] = useState({ title: '', tags: '', description: '' });
+    const [postDetails, setPostDetails] = useState({ title: '', tags: '', description: '',postImg:""});
     const { currentPost } = useSelector((state) => state.posts);
 
     const clear = () => {
-        setPostDetails({ title: '', tags: '', description: '' })
+        ref.current.value = "";
+        setPostDetails({ title: '', tags: '', description: '',postImg:""})
     }
 
     const scrollToTop = () => {
@@ -24,17 +26,34 @@ const CreatePost = () => {
         setPostDetails({ ...postDetails, [e.target.name]: e.target.value });
     }
 
+    const handelPostImage = (e) => {
+        setPostDetails({ ...postDetails, postImg: e.target.files[0] });
+      }    
+
     const handelPostSubmit = (e) => {
         e.preventDefault();
-        if (postDetails.title !== '' && postDetails.description !== '') {
+
+        const { title, tags,description,postImg} = postDetails;
+        
+        if (title!== ''&&description !== '') {
+
+            const formData = new FormData();
+            formData.append('title', title);
+            formData.append('tags', tags);
+            formData.append('description', description);
+            formData.append('postImg', postImg);            
+
             if (currentPost === null) {
-                dispatch(createPost(postDetails));
+                dispatch(createPost(formData));
             } else {
-                dispatch(updatePost(currentPost._id, postDetails));
+                dispatch(updatePost(currentPost._id, formData));
             }
         }
+
         clear();
     }
+
+
 
     useEffect(() => {
 
@@ -64,6 +83,10 @@ const CreatePost = () => {
                             </div>
                             <div className="mb-3">
                                 <textarea className="form-control" rows="3" name="description" value={postDetails.description || ''} placeholder="Description" onChange={handelPostChange}></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label className="form-label">Post Image</label>
+                                <input className="form-control form-control-sm" name="postImg" type="file" ref={ref} onChange={handelPostImage}/>
                             </div>
                             <button type="submit" className="btn btn-primary btn-sm" onClick={handelPostSubmit}>
                                 {currentPost ? 'Update Post' : 'Create Post'}
